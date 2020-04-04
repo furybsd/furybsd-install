@@ -1,0 +1,71 @@
+#!/usr/local/bin/bash
+
+# Function to create hostname dialog
+f_hostname () {
+    zenity --entry \
+    --height=100 \
+    --width=350 \
+    --title="FuryBSD Installer (Hostname)" \
+    --text="Please choose a hostname for this machine."
+}
+
+# Function to create partitioning dialog
+f_partitioning () {
+    zenity --list \
+    --height=220 \
+    --width=350 \
+    --title="FuryBSD Installer (Paritioning)" \
+    --text="How would you like to parition your disk?" \
+    --column="Option" --column="Description" \
+    "Auto (UFS)" "Guided Disk Setup" \
+    "Manual" "Manual Disk Setup (experts)" \
+    "Shell" "Open a shell and partition by hand" \
+    "Auto (ZFS)" "Guided Root-on-ZFS"
+}
+
+# Function to create partitioning dialog
+f_zfs_configuration_vdev_type () {
+    zenity --list \
+    --height=220 \
+    --width=350 \
+    --title="FuryBSD Installer (ZFS Configuration)" \
+    --text="Select a Virtual Device Type" \
+    --column="Option" --column="Description" \
+    "stripe" "Stripe - No Redundancy" \
+    "mirror" "Mirror - n-Way- Mirroring" \
+    "raidz0" "RAID 1+0 n x 2-Way Mirrors" \
+    "raidz1" "RAID-Z1 - Single Redundant RAID" \
+    "raidz2" "RAID-Z2 - Double Redundant RAID" \
+    "raidz3" "RAID-Z3 - Tripe Redundant RAID"
+}
+
+# Function to create partitioning dialog
+f_zfs_configuration_disks () {
+    zenity --list \
+    --height=220 \
+    --width=350 \
+    --checklist --text "<b>Please</b> make a selection:" \
+    --hide-header \
+    --column "Buy" \
+    --column "Item" \
+    FALSE "ada0" FALSE "ada1" FALSE "ada3"
+}
+
+# Function to create installation progress dialog
+f_installation_progress () {
+    find /usr | zenity --progress --pulsate --auto-close --auto-kill --text="Installing..." --title="FuryBSD Installer"
+}
+
+# Main function
+f_main () {
+    f_hostname
+    f_partitioning
+    f_zfs_configuration_vdev_type
+    f_zfs_configuration_disks
+    f_installation_progress
+    zenity --height=50 --width=300 --password --title="Create Root Password"
+    zenity --height=50 --width=200 --password --username --title="Create User"
+    zenity --height=50 --width=200 --question --no-wrap --text="Would you like to reboot?" --title="Install Complete"
+}
+f_main
+exit
