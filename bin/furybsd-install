@@ -14,8 +14,8 @@ f_partitioning () {
     zenity --list \
     --height=220 \
     --width=350 \
-    --title="FuryBSD Installer (Paritioning)" \
-    --text="How would you like to parition your disk?" \
+    --title="FuryBSD Installer (Partitioning)" \
+    --text="How would you like to partition your disk?" \
     --column="Option" --column="Description" \
     "Auto (UFS)" "Guided Disk Setup" \
     "Manual" "Manual Disk Setup (experts)" \
